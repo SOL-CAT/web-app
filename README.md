@@ -1,5 +1,5 @@
 # web-app
-The only repository for the front end code of CATO
+The only repository for the front-end code of CATO
 
 Just do a package install using npm i.
 

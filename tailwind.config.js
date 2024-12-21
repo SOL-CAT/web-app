@@ -5,8 +5,15 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'dark-brand': '#613613',
-        'lite-brand': '#4B382A'
+        'lite-brand': '#B7A99A',
+        'yellow': '#FEA910'
+      },
+      fontFamily: {
+        'sans': ['Roboto', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', "Segoe UI", "Helvetica Neue", 'Arial', "Noto Sans", 'sans-serif'],
+      },
+      screens: {
+        "max-sm": { max: '500px' },
+        'md-lg': { min: '500px', max: '1200px' },
       }
     },
   },

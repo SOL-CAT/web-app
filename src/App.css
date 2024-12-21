@@ -1,4 +1,15 @@
-
-.wallet-adapter-button{
+.wallet-adapter-button.wallet-adapter-button-trigger{
     height: 40px !important;
+    border-radius: 50px !important;
+    background-color: #FEA910 !important;
+    cursor: not-allowed;
+    color: white !important;
+}
+
+.mobile-header-drawer{
+    background-color: #B7A99A !important;
+}
+
+.mobile-header-drawer > .ant-drawer-header{
+    border: none;
 }

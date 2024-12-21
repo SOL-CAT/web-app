@@ -5,15 +5,15 @@ import AppLayout from './components/AppLayout'
 
 
 const Router: FC = () => (
-    <AppLayout>
         <BrowserRouter>
-            <Switch>
-                <Route exact path='/'>
-                    <Home />
-                </Route>
-            </Switch>
+            <AppLayout>
+                <Switch>
+                    <Route exact path='/'>
+                        <Home />
+                    </Route>
+                </Switch>
+            </AppLayout>
         </BrowserRouter>
-    </AppLayout>
 )
 
 

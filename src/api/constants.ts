@@ -1,0 +1,1 @@
+export const BASE_API_URL = "https://cato-server-2c89bb498267.herokuapp.com/"

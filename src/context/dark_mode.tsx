@@ -34,7 +34,7 @@ export const DarkModeProvider: FC<{ children: ReactNode }> = ({ children }) => {
 export const useDarkMode = (): ModeConfig => {
   const context = useContext(DarkModeContext)
   if (!context) {
-    throw new Error('Missing dark mode context')
+    throw new Error('Missing dark mode context!')
   }
 
   return context

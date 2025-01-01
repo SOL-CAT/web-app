@@ -101,7 +101,7 @@ export const HeaderMobile: FC = () => {
                 </div>
             </Drawer>
             <div className="absolute right-2.5 top-2.5">
-                <WalletMultiButton disabled={true} />
+                <WalletMultiButton disabled={true} style={{background: "#404144"}} />
             </div>
         </div>
     )

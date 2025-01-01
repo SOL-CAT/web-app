@@ -77,7 +77,7 @@ export const HeaderDesktop: FC = () => {
                 </Dropdown>
             </div>
         </nav>
-        <WalletMultiButton disabled={true} />
+        <WalletMultiButton disabled={true} style={{background: "#FEA910"}} />
     </div>
     )
 }

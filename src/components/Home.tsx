@@ -1,49 +1,35 @@
-import { ChangeEvent, FC, useEffect, useState } from "react";
-import useBreakPoint from "../hooks/useBreakpoint";
-import { isValidEmail } from "../utils";
-import { saveUserEmail } from "../api/actions";
+import { ChangeEvent, FC, useState } from "react"
+import useBreakPoint from "../hooks/useBreakpoint"
+import { isValidEmail } from "../utils"
+import { saveUserEmail } from "../api/actions"
 
 const Home: FC = () => {
     const { isMobile, isTablet, isDesktop } = useBreakPoint()
     const [userEmail, setUserEmail] = useState<string>('')
-    const [isEmailEntered, setIsEmailEntered] = useState<boolean>(false)
-    const [isEmailValid, setIsEmailValid] = useState<boolean>(false)
-    const [isEmailSubmitted, setIsEmailSubmitted] = useState<boolean>(false)
-    const [isLoading, setIsLoading] = useState<boolean>(false)
     const [uiMessage, setUiMessage] = useState<string>('')
 
     const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
         setUserEmail(e?.target?.value)
-        setIsEmailValid(true)
-        setIsEmailEntered(false)
-        setIsEmailSubmitted(false)
+        setUiMessage('')
     }
 
     const handleEmailSubmit = async () => {
-        setIsEmailEntered(true)
-        setIsEmailValid(isValidEmail(userEmail))
         if (isValidEmail(userEmail)) {
-            setIsLoading(true)
-            const id = await saveUserEmail(userEmail)
-            if (id) {
-                setIsEmailSubmitted(true)
+            setUiMessage('Loading!')
+            const res = await saveUserEmail(userEmail)
+            if (res?.data?.id) {
+                setUiMessage('You\'re now catofied!')
                 setTimeout(() => {
                     setUserEmail('')
                     setUiMessage('')
-                    setIsEmailEntered(false)
                 }, 3000)
-            }
-            else setIsEmailSubmitted(false)
-            setIsLoading(false)
+            } else if (res?.message?.includes('already exists')) {
+                setUiMessage('Email already exists!')
+            } else setUiMessage('Some error occured, please try again!')
+        } else {
+            setUiMessage('Please enter a valid email!')
         }
     }
-
-    useEffect(() => {
-        if(isEmailEntered && !isEmailValid) setUiMessage('Please enter a valid email!')
-        if(isLoading) setUiMessage('Loading!')
-        else if(isEmailEntered && !isEmailSubmitted && isEmailValid) setUiMessage('Some error occured, please try again!')
-        else if(isEmailEntered && isEmailSubmitted) setUiMessage('You\'re now catofied!')
-    }, [isEmailEntered, isEmailValid, isLoading, isEmailSubmitted])
 
     return (
         <>
@@ -80,33 +66,26 @@ const Home: FC = () => {
                             onClick={handleEmailSubmit}>
                             Submit
                         </button>
-                        {(isEmailEntered && !isEmailValid) && (
-                            <div className="flex flex-row items-center absolute bottom-0">
-                                <img src="/img/red-cross.png" alt="red-cross" className="rounded-[100%] h-8 w-8" />
-                                <span className="font-bold">{uiMessage}</span>
-                            </div>
-                        )}
-                        {isLoading ? (
-                            <div className="flex flex-row items-center">
-                                <span className="font-bold">{uiMessage}</span>
-                            </div>
-                            ) : (isEmailEntered && !isEmailSubmitted && isEmailValid) ? (
-                                <div className="flex flex-row items-center">
-                                    <img src="/img/red-cross.png" alt="red-cross" className="rounded-[100%] h-8 w-8" />
-                                    <span className="font-bold">{uiMessage}</span>
-                                </div>
-                            ) : (isEmailEntered && isEmailSubmitted) ? (
-                                <div className="flex flex-row items-center">
-                                    <img src="/img/green-tick.png" alt="green-tick" className="rounded-[100%] h-8 w-8"/>
-                                    <span className="font-bold">{uiMessage}</span>
-                                </div>
-                            ) : <></>
-                        }
+                        <div className="flex flex-row items-center absolute bottom-0">
+                            {(uiMessage === '' || uiMessage === 'Loading!') ? <>
+                            </> : (uiMessage === 'You\'re now catofied!') ?
+                                <img
+                                    src="/img/green-tick.png"
+                                    alt="green-tick"
+                                    className="rounded-[100%] h-8 w-8"
+                                /> : <img
+                                    src="/img/red-cross.png"
+                                    alt="red-cross"
+                                    className="rounded-[100%] h-8 w-8"
+                                />
+                            }
+                            <span className="font-bold">{uiMessage}</span>
+                        </div>
                     </div>
                     <div className="flex flex-row max-sm:justify-center md-lg:justify-center max-sm:mt-10 md-lg:mt-10 mt-[100px]">
-                        <img src="img/brand-1.svg" alt="brand-logo" className="mr-5 max-sm:w-[55px]"/>
-                        <img src="img/brand-3.svg" alt="brand-logo" className="mr-6 max-sm:w-[55px]"/>
-                        <img src="img/brand-2.svg" alt="brand-logo" className="max-sm:w-[200px]"/>
+                        <img src="img/brand-1.svg" alt="brand-logo" className="mr-5 max-sm:w-[55px]" />
+                        <img src="img/brand-3.svg" alt="brand-logo" className="mr-6 max-sm:w-[55px]" />
+                        <img src="img/brand-2.svg" alt="brand-logo" className="max-sm:w-[200px]" />
                     </div>
                 </div>
                 {isDesktop && <img src="/img/cato_cat.png" alt="big-cato" />}

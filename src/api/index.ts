@@ -29,11 +29,6 @@ export const httpClient = async (
 
         const response = await fetch(fetchUrl, fetchOptions)
         const data = await response.json()
-
-        if (!response.ok) {
-            throw new Error(data.message);
-        }
-
         return data
 
     } catch (e) {
